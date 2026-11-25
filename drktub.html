@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>drktub</title>
+<style>
+:root{--bg:#0d0d11;--sf:#1a1a21;--tx:#f3f3f7;--mu:#9a9aa8;--ac:#ff1f4b;--bd:#2b2b35;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Segoe UI",system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:10px 18px;background:rgba(13,13,17,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd)}
+/* LOGO */
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.lg-i{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ff1f4b,#ff6a00 60%,#ffb300);position:relative;box-shadow:0 0 18px rgba(255,31,75,.55),inset 0 -4px 8px rgba(0,0,0,.25);transform:rotate(-6deg)}
+.lg-i:before{content:"";position:absolute;inset:5px;border-radius:8px;background:#0d0d11}
+.lg-i:after{content:"";position:absolute;left:15px;top:11px;border-left:15px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent;filter:drop-shadow(0 0 4px #ff1f4b)}
+.lg-t{font-size:26px;font-weight:900;letter-spacing:-1px;display:flex;align-items:center}
+.lg-t span{background:linear-gradient(90deg,#ff1f4b,#ff8a00);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lg-t em{font-style:normal;background:#ff1f4b;color:#fff;border-radius:7px;padding:0 7px;margin-left:3px;transform:skew(-8deg);box-shadow:0 3px 10px rgba(255,31,75,.5)}
+.logo:hover .lg-i{transform:rotate(6deg) scale(1.08);transition:.25s}
+.sp{flex:1}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:20px;padding:8px 16px;font-weight:600}
+.btn.g{background:var(--sf);border:1px solid var(--bd)}
+.btn.s{padding:5px 12px;font-size:13px}
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff1f4b,#ff8a00);color:#fff;border:0;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:none}
+nav{display:flex;gap:8px;padding:12px 18px;overflow-x:auto}
+nav button{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:6px 16px;white-space:nowrap}
+nav button.on{background:var(--tx);color:var(--bg)}
+main{padding:0 18px 40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.card video{width:100%;aspect-ratio:16/9;object-fit:cover;background:#000;border-radius:12px;display:block;pointer-events:none}
+.card.v9 video{aspect-ratio:9/16}
+.card .th{cursor:pointer}
+.card h4{margin:8px 0 2px;font-size:15px}
+.lnk{color:var(--mu);cursor:pointer;font-size:13px;background:none;border:0;padding:0}
+.lnk:hover{color:var(--tx);text-decoration:underline}
+.empty{text-align:center;color:var(--mu);padding:60px 10px}
+.shorts{display:flex;flex-direction:column;align-items:center;gap:16px;height:calc(100vh - 130px);overflow-y:auto;scroll-snap-type:y mandatory}
+.sh{scroll-snap-align:start;position:relative;height:100%;aspect-ratio:9/16;max-width:100%;flex:none;border-radius:16px;overflow:hidden;background:#000}
+.sh video{width:100%;height:100%;object-fit:cover}
+.sh .in{position:absolute;left:12px;bottom:12px;right:60px;text-shadow:0 1px 4px #000}
+.sh .cm{position:absolute;right:10px;bottom:20px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.55);font-size:20px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:20;padding:12px}
+.ov.on{display:flex}
+.box{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:20px;width:100%;max-width:420px;max-height:92vh;overflow:auto}
+.box h3{margin:0 0 12px}
+.box input[type=text],.box input[type=email]{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
+.prov{display:flex;width:100%;align-items:center;gap:10px;justify-content:center;margin-bottom:10px;padding:11px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);font-weight:600}
+.dot{width:18px;height:18px;border-radius:50%}
+.pl{max-width:900px}
+.pl video{width:100%;max-height:50vh;background:#000;border-radius:10px}
+.pl.sv video{max-height:60vh;width:auto;margin:0 auto;display:block}
+.cms{margin-top:14px;max-height:260px;overflow:auto}
+.c{display:flex;gap:10px;margin-bottom:12px}
+.c .av{width:32px;height:32px;font-size:13px}
+.c img{max-width:180px;max-height:160px;border-radius:10px;display:block;margin-top:6px}
+.c small{color:var(--mu)}
+.cin{display:flex;gap:8px;margin-top:10px;align-items:center}
+.cin input{flex:1;margin:0!important}
+#gifPrev img{max-height:70px;border-radius:8px;margin-top:8px}
+.menu{position:absolute;right:12px;top:58px;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:8px;width:270px;display:none;z-index:9}
+.menu.on{display:block}
+.acc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;width:100%;background:none;border:0;text-align:left}
+.acc:hover{background:var(--bg)}
+.acc .av{width:30px;height:30px;font-size:13px}
+.acc.cur{outline:1px solid var(--ac)}
+.acc small{display:block;color:var(--mu);font-size:12px}
+hr{border:0;border-top:1px solid var(--bd);margin:6px 0}
+.row{display:flex;gap:8px;align-items:center;margin:8px 0}
+.ch{display:flex;align-items:center;gap:16px;padding:18px 0}
+.ch .av{width:84px;height:84px;font-size:36px}
+.chs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.chc{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:18px;text-align:center;cursor:pointer}
+.chc .av{width:64px;height:64px;font-size:26px;margin-bottom:8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" onclick="tab('home')"><div class="lg-i"></div><div class="lg-t"><span>drk</span><em>tub</em></div></div>
+  <div class="sp"></div>
+  <button class="btn g" onclick="openUp()">⬆ Yükle</button>
+  <button class="btn" id="loginBtn" onclick="openLogin()">Giriş yap</button>
+  <button class="av" id="avBtn" style="display:none" onclick="toggleMenu()"></button>
+  <div class="menu" id="menu"></div>
+</header>
+<nav><button id="t-home" onclick="tab('home')">Ana Sayfa</button><button id="t-shorts" onclick="tab('shorts')">Shorts</button><button id="t-channels" onclick="tab('channels')">Kanallar</button></nav>
+<main id="main"></main>
+
+<div class="ov" id="loginOv"><div class="box">
+  <h3 id="lTitle">drktub'a giriş yap</h3>
+  <div id="lStep1">
+    <button class="prov" onclick="pick('Google')"><span class="dot" style="background:conic-gradient(#ea4335 0 25%,#fbbc05 0 50%,#34a853 0 75%,#4285f4 0)"></span>Google ile devam et</button>
+    <button class="prov" onclick="pick('Outlook')"><span class="dot" style="background:#0078d4"></span>Outlook ile devam et</button>
+  </div>
+  <div id="lStep2" style="display:none">
+    <input type="text" id="lName" placeholder="Kanal / Ad Soyad">
+    <input type="email" id="lMail" placeholder="E-posta adresi">
+    <button class="btn" style="width:100%" onclick="doLogin()">Giriş yap</button>
+  </div>
+  <p style="color:var(--mu);font-size:12px">Demo giriş: hesapların bu tarayıcıda kaydedilir, her açışta seni hatırlar.</p>
+  <button class="btn g" style="width:100%" onclick="closeOv('loginOv')">Kapat</button>
+</div></div>
+
+<div class="ov" id="upOv"><div class="box">
+  <h3>Video yükle</h3>
+  <input type="file" id="upFile" accept="video/*" style="margin-bottom:10px;width:100%">
+  <input type="text" id="upTitle" placeholder="Başlık">
+  <label class="row"><input type="checkbox" id="upShort"> Shorts olarak yayınla (dikey)</label>
+  <button class="btn" id="upGo" style="width:100%" onclick="doUpload()">Yayınla</button>
+  <button class="btn g" style="width:100%;margin-top:10px" onclick="closeOv('upOv')">İptal</button>
+</div></div>
+
+<div class="ov" id="playOv" onclick="if(event.target===this)closePlay()"><div class="box pl" id="playBox"></div></div>
+<input type="file" id="gifFile" accept="image/gif,image/*" style="display:none" onchange="gifPick(this)">
+
+<script>
+var DB,accounts=[],cur=null,videos=[],comments=[],view='home',prov='',curVid=null,gif='';
+try{accounts=JSON.parse(localStorage.getItem('drk_acc')||'[]');cur=localStorage.getItem('drk_cur')||null}catch(e){}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function openDB(){return new Promise(function(r){try{var q=indexedDB.open('drktub',1);q.onupgradeneeded=function(){var d=q.result;d.createObjectStore('videos',{keyPath:'id',autoIncrement:true});d.createObjectStore('comments',{keyPath:'id',autoIncrement:true});d.createObjectStore('meta')};q.onsuccess=function(){DB=q.result;r()};q.onerror=function(){r()}}catch(e){r()}})}
+function all(s){return new Promise(function(r){if(!DB)return r([]);var q=DB.transaction(s).objectStore(s).getAll();q.onsuccess=function(){r(q.result)};q.onerror=function(){r([])}})}
+function put(s,v,k){return new Promise(function(r){if(!DB)return r();var t=DB.transaction(s,'readwrite'),q=k?t.objectStore(s).put(v,k):t.objectStore(s).put(v);q.onsuccess=function(){r(q.result)};t.onerror=function(){r()}})}
+function del(s,k){return new Promise(function(r){if(!DB)return r();var t=DB.transaction(s,'readwrite');t.objectStore(s).delete(k);t.oncomplete=function(){r()}})}
+function getMeta(k){return new Promise(function(r){if(!DB)return r();var q=DB.transaction('meta').objectStore('meta').get(k);q.onsuccess=function(){r(q.result)};q.onerror=function(){r()}})}
+function saveAcc(){try{localStorage.setItem('drk_acc',JSON.stringify(accounts));localStorage.setItem('drk_cur',cur||'')}catch(e){}put('meta',{accounts:accounts,cur:cur},'acc')}
+function me(){return accounts.find(function(a){return a.email===cur})}
+function acc(e){return accounts.find(function(a){return a.email===e})}
+function ini(n){return esc((n||'?').trim().charAt(0).toUpperCase())}
+function closeOv(i){document.getElementById(i).classList.remove('on')}
+function openLogin(){document.getElementById('menu').classList.remove('on');document.getElementById('lStep1').style.display='';document.getElementById('lStep2').style.display='none';document.getElementById('lTitle').textContent="drktub'a giriş yap";document.getElementById('loginOv').classList.add('on')}
+function pick(p){prov=p;document.getElementById('lStep1').style.display='none';document.getElementById('lStep2').style.display='';document.getElementById('lTitle').textContent=p+' hesabınla giriş'}
+function doLogin(){
+  var n=document.getElementById('lName').value.trim(),m=document.getElementById('lMail').value.trim().toLowerCase();
+  if(!n||m.indexOf('@')<1){alert('Ad ve geçerli e-posta gir.');return}
+  if(!acc(m))accounts.push({name:n,email:m,provider:prov});
+  cur=m;saveAcc();closeOv('loginOv');document.getElementById('lName').value='';document.getElementById('lMail').value='';ui();render();
+}
+function switchTo(m){cur=m;saveAcc();document.getElementById('menu').classList.remove('on');ui();render()}
+function logout(){accounts=accounts.filter(function(a){return a.email!==cur});cur=accounts.length?accounts[0].email:null;saveAcc();document.getElementById('menu').classList.remove('on');ui();render()}
+function toggleMenu(){
+  var h='';
+  accounts.forEach(function(a){h+='<button class="acc'+(a.email===cur?' cur':'')+'" onclick="switchTo(\''+esc(a.email)+'\')"><span class="av">'+ini(a.name)+'</span><span>'+esc(a.name)+'<small>'+esc(a.email)+' · '+a.provider+'</small></span></button>'});
+  h+='<hr><button class="acc" onclick="document.getElementById(\'menu\').classList.remove(\'on\');chan(cur)">📺 Kanalım</button><button class="acc" onclick="openLogin()">➕ Hesap ekle</button><button class="acc" onclick="logout()">🚪 Bu hesaptan çıkış</button>';
+  var m=document.getElementById('menu');m.innerHTML=h;m.classList.toggle('on');
+}
+function ui(){
+  var a=me(),b=document.getElementById('avBtn');
+  document.getElementById('loginBtn').style.display=a?'none':'';
+  b.style.display=a?'':'none';if(a)b.textContent=a.name.trim().charAt(0).toUpperCase();
+}
+function openUp(){if(!me()){openLogin();return}document.getElementById('upOv').classList.add('on')}
+function doUpload(){
+  var f=document.getElementById('upFile').files[0],t=document.getElementById('upTitle').value.trim();
+  if(!f){alert('Bir video seç.');return}
+  var v={blob:f,title:t||f.name,short:document.getElementById('upShort').checked,email:me().email,date:Date.now()};
+  document.getElementById('upGo').textContent='Kaydediliyor...';
+  put('videos',v).then(function(id){
+    v.id=id;v.url=URL.createObjectURL(f);videos.unshift(v);
+    document.getElementById('upGo').textContent='Yayınla';
+    document.getElementById('upFile').value='';document.getElementById('upTitle').value='';
+    closeOv('upOv');tab(v.short?'shorts':'home');
+  });
+}
+function tab(t){view=t;render()}
+function chan(e){view='ch:'+e;render()}
+function vid(id){return videos.find(function(v){return v.id===id})}
+function chName(e){var a=acc(e);return a?a.name:e}
+function open_(id){
+  curVid=id;gif='';var v=vid(id);if(!v)return;
+  document.getElementById('playBox').className='box pl'+(v.short?' sv':'');
+  document.getElementById('playBox').innerHTML='<video src="'+v.url+'" controls autoplay></video><h3 style="margin:10px 0 2px">'+esc(v.title)+'</h3><button class="lnk" onclick="closePlay();chan(\''+esc(v.email)+'\')">'+esc(chName(v.email))+'</button><h4>Yorumlar</h4><div class="cms" id="cms"></div><div id="gifPrev"></div><div class="cin"><input type="text" id="cTxt" placeholder="Yorum yaz..." onkeydown="if(event.key===\'Enter\')postC()"><button class="btn g s" onclick="document.getElementById(\'gifFile\').click()">GIF</button><button class="btn g s" onclick="gifUrl()">🔗</button><button class="btn s" onclick="postC()">Gönder</button></div><button class="btn g" style="margin-top:12px" onclick="closePlay()">Kapat</button>';
+  document.getElementById('playOv').classList.add('on');drawC();
+}
+function closePlay(){document.getElementById('playBox').innerHTML='';closeOv('playOv')}
+function drawC(){
+  var l=comments.filter(function(c){return c.vid===curVid}),h='';
+  if(!l.length)h='<small style="color:var(--mu)">İlk yorumu sen yap!</small>';
+  l.forEach(function(c){h+='<div class="c"><span class="av">'+ini(c.name)+'</span><div><b>'+esc(c.name)+'</b> <small>'+new Date(c.date).toLocaleString('tr-TR')+'</small><div>'+esc(c.text)+'</div>'+(c.gif?'<img src="'+esc(c.gif)+'" alt="gif">':'')+(c.email===cur?'<button class="lnk" onclick="delC('+c.id+')">Sil</button>':'')+'</div></div>'});
+  var e=document.getElementById('cms');if(e)e.innerHTML=h;
+}
+function gifPick(inp){
+  var f=inp.files[0];inp.value='';if(!f)return;
+  if(f.size>4e6){alert('GIF en fazla 4 MB olsun.');return}
+  var r=new FileReader();r.onload=function(){setGif(r.result)};r.readAsDataURL(f);
+}
+function gifUrl(){var u=prompt('GIF bağlantısını yapıştır (https://...gif):');if(u&&/^https?:\/\//i.test(u.trim()))setGif(u.trim())}
+function setGif(u){gif=u;document.getElementById('gifPrev').innerHTML='<img src="'+esc(u)+'" alt=""> <button class="lnk" onclick="gif=\'\';document.getElementById(\'gifPrev\').innerHTML=\'\'">kaldır</button>'}
+function postC(){
+  if(!me()){closePlay();openLogin();return}
+  var t=document.getElementById('cTxt').value.trim();if(!t&&!gif)return;
+  var c={vid:curVid,email:cur,name:me().name,text:t,gif:gif,date:Date.now()};
+  put('comments',c).then(function(id){c.id=id;comments.push(c);gif='';document.getElementById('gifPrev').innerHTML='';document.getElementById('cTxt').value='';drawC()});
+}
+function delC(id){del('comments',id).then(function(){comments=comments.filter(function(c){return c.id!==id});drawC()})}
+function delV(id){if(!confirm('Video silinsin mi?'))return;del('videos',id).then(function(){videos=videos.filter(function(v){return v.id!==id});render()})}
+function cardH(v,own){
+  return '<div class="card'+(v.short?' v9':'')+'"><div class="th" onclick="open_('+v.id+')"><video src="'+v.url+'#t=0.5" preload="metadata" muted></video></div><h4>'+esc(v.title)+(v.short?' <small style="color:var(--ac)">Shorts</small>':'')+'</h4><button class="lnk" onclick="chan(\''+esc(v.email)+'\')">'+esc(chName(v.email))+'</button>'+(own?' <button class="lnk" onclick="delV('+v.id+')">· Sil</button>':'')+'</div>';
+}
+function render(){
+  var m=document.getElementById('main'),h='',p=view.split(':')[0];
+  ['home','shorts','channels'].forEach(function(t){document.getElementById('t-'+t).className=view===t?'on':''});
+  if(view==='home'){
+    var l=videos.filter(function(v){return!v.short});
+    if(!l.length)h='<div class="empty">Henüz video yok. Giriş yapıp ilk videonu yükle! ⬆</div>';
+    else{h='<div class="grid">';l.forEach(function(v){h+=cardH(v)});h+='</div>'}
+  }else if(view==='shorts'){
+    var s=videos.filter(function(v){return v.short});
+    if(!s.length)h='<div class="empty">Henüz Shorts yok. Yüklerken "Shorts" kutusunu işaretle.</div>';
+    else{h='<div class="shorts">';s.forEach(function(v){h+='<div class="sh"><video src="'+v.url+'" controls loop playsinline></video><div class="in"><b>'+esc(v.title)+'</b><br><button class="lnk" style="color:#fff" onclick="chan(\''+esc(v.email)+'\')">@'+esc(chName(v.email))+'</button></div><button class="cm" onclick="open_('+v.id+')">💬</button></div>'});h+='</div>'}
+  }else if(view==='channels'){
+    if(!accounts.length)h='<div class="empty">Henüz kanal yok. Giriş yap, kanalın otomatik oluşsun.</div>';
+    else{h='<div class="chs">';accounts.forEach(function(a){var n=videos.filter(function(v){return v.email===a.email}).length;h+='<div class="chc" onclick="chan(\''+esc(a.email)+'\')"><div class="av">'+ini(a.name)+'</div><div><b>'+esc(a.name)+'</b></div><small style="color:var(--mu)">'+n+' video</small></div>'});h+='</div>'}
+  }else if(p==='ch'){
+    var e=view.slice(3),a=acc(e),l2=videos.filter(function(v){return v.email===e});
+    h='<div class="ch"><div class="av">'+ini(a?a.name:e)+'</div><div><h2 style="margin:0">'+esc(a?a.name:e)+'</h2><small style="color:var(--mu)">'+(a?esc(a.provider)+' · ':'')+l2.length+' video</small></div></div>';
+    if(!l2.length)h+='<div class="empty">Bu kanalda henüz video yok.</div>';
+    else{h+='<div class="grid">';l2.forEach(function(v){h+=cardH(v,e===cur)});h+='</div>'}
+  }
+  m.innerHTML=h;
+}
+openDB().then(function(){
+  return Promise.all([all('videos'),all('comments'),getMeta('acc')]);
+}).then(function(r){
+  videos=r[0].sort(function(a,b){return b.date-a.date});
+  videos.forEach(function(v){v.url=URL.createObjectURL(v.blob)});
+  comments=r[1];
+  if(!accounts.length&&r[2]&&r[2].accounts){accounts=r[2].accounts;cur=r[2].cur}
+  if(cur&&!acc(cur))cur=accounts.length?accounts[0].email:null;
+  ui();render();
+});
+ui();render();
+</script>
+</body>
+</html>
